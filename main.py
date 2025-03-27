@@ -1,13 +1,40 @@
-# Write your code here
 import random
 import os
 import json
 from datetime import datetime
 
 questions = [
-    {"question": "Who is the Electric-type Pokémon known for evolving from Pikachu?", "answer": "Raichu"},
-    {"question": "What is the name of the legendary Pokémon that represents time in the Pokémon universe?", "answer": "Dialga"},
-    {"question": "Which Pokémon is known as the 'Flame Pokémon' and evolves from Charmander?", "answer": "Charizard"},
+    {"question": "What was the first Pokémon ever created?",
+     "options": ["Pikachu", "Bulbasaur", "Rhydon", "Mew"],
+     "answer": "Rhydon"},
+    
+    {"question": "Which Pokémon is known as the 'Eon Pokémon'?",
+     "options": ["Lugia", "Mewtwo", "Latios and Latias", "Rayquaza"],
+     "answer": "Latios and Latias"},
+    
+    {"question": "What type is the Pokémon 'Garchomp'?",
+     "options": ["Dragon/Ground", "Dragon/Flying", "Ground/Rock", "Dragon/Steel"],
+     "answer": "Dragon/Ground"},
+    
+    {"question": "In which generation was the Fairy-type introduced?",
+     "options": ["Generation IV", "Generation V", "Generation VI", "Generation VII"],
+     "answer": "Generation VI"},
+    
+    {"question": "Which of the following Pokémon is not a Legendary Pokémon?",
+     "options": ["Entei", "Garchomp", "Regirock", "Cresselia"],
+     "answer": "Garchomp"},
+    
+    {"question": "Who is the Electric-type Pokémon known for evolving from Pikachu?",
+     "options": ["Raichu", "Electrode", "Zapdos", "Magnemite"],
+     "answer": "Raichu"},
+    
+    {"question": "What is the name of the legendary Pokémon that represents time in the Pokémon universe?",
+     "options": ["Dialga", "Palkia", "Giratina", "Lugia"],
+     "answer": "Dialga"},
+    
+    {"question": "Which Pokémon is known as the 'Flame Pokémon' and evolves from Charmander?",
+     "options": ["Charizard", "Flareon", "Infernape", "Ember"],
+     "answer": "Charizard"},
 ]
 
 filename = 'user_performance.json'
@@ -33,6 +60,7 @@ def run_flashcards():
 
     for index, flashcard in enumerate(questions):
         question = flashcard["question"]
+        options = flashcard["options"]
         correct_answer = flashcard["answer"]
 
         if flashcard["question"] in user_data:
@@ -41,7 +69,17 @@ def run_flashcards():
             attempts = 1  
 
         print(f"Question {index + 1}: {question}")
-        user_answer = input("Your answer: ").strip()
+        random.shuffle(options) 
+
+        for i, option in enumerate(options, 1):
+            print(f"{i}. {option}")
+
+        try:
+            user_answer_index = int(input("Your answer (1-4): ").strip()) - 1
+            user_answer = options[user_answer_index]
+        except (ValueError, IndexError):
+            print("Invalid choice! Please select a number between 1 and 4.")
+            continue
 
         if user_answer.lower() == correct_answer.lower():
             print("Correct!")
